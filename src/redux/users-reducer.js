@@ -1,4 +1,4 @@
-import {api} from "../api/api";
+import {usersAPI} from "../api/usersAPI";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -75,7 +75,7 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
 export const requestUsers = (page, pageSize) => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true))
-        let response = await api.getUsers(page, pageSize)
+        let response = await usersAPI.getUsers(page, pageSize)
         dispatch(toggleIsFetching(false))
         dispatch(setUsers(response.items))
         dispatch(setTotalUsersCount(response.totalCount))
@@ -97,12 +97,12 @@ const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) =>
 
 export const unfollow = (userId) => {
     return async (dispatch) => {
-        await followUnfollowFlow(dispatch, userId, api.unfollow.bind(api), unfollowSuccess)
+        await followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess)
     }
 }
 export const follow = (userid) => {
     return async (dispatch) => {
-        await followUnfollowFlow(dispatch, userid, api.follow.bind(api), followSuccess)
+        await followUnfollowFlow(dispatch, userid, usersAPI.follow.bind(usersAPI), followSuccess)
     }
 }
 

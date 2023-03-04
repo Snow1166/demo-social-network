@@ -8,7 +8,7 @@ const instance = axios.create({
     }
 })
 
-export const api = {
+export const usersAPI = {
     getUsers: (currentPage, pageSize) => {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => {
             return response.data
@@ -31,31 +31,40 @@ export const api = {
 
 export const authAPI = {
     auth: () => {
-        return instance.get('auth/me')
+        return instance.get('/auth/me')
     },
     login: (loginForm) => {
         return instance.post('/auth/login', loginForm)
     },
     logout: () => {
-        return instance.delete('auth/login')
+        return instance.delete('/auth/login')
     },
     getCaptcha: () => {
-        return instance.get('security/get-captcha-url')
-}
+        return instance.get('/security/get-captcha-url')
+    }
 }
 
 export const profileAPI = {
-    getProfile: (userId) => {
-        return instance.get(`profile/${userId}`).then(response => {
-            return response.data
-        })
+    getProfile: async (userId) => {
+        const response = await instance.get(`/profile/${userId}`)
+        return response.data
+
     },
     getStatus: (userId) => {
         return instance.get(`/profile/status/${userId}`)
     },
-    updateStatus: (status) => {
-        return instance.put(`/profile/status/`, {status}).then(response => {
-            return response.data
-        })
+    updateStatus: async (status) => {
+        const response = await instance.put(`/profile/status/`, {status})
+        return response.data
+
+    },
+    savePhoto: async (imageFile) => {
+        let formData = new FormData()
+        formData.append('image', imageFile)
+        return await instance.put(`/profile/photo`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+    },
+    saveProfile: async (profileData) => {
+        const response = await  instance.put('/profile', profileData)
+        return response.data
     }
 }

@@ -11,5 +11,50 @@ img {
 }
 
 .descriptionBlock img{
-    height: 300px;
+    max-width: 300px;
+}
+
+
+.customFileInput {
+    color: transparent;
+}
+.customFileInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.customFileInput::before {
+    content: 'Обновить фото профиля';
+    color: black;
+    display: inline-block;
+    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+}
+.customFileInput:hover::before {
+    border-color: black;
+}
+.customFileInput:active {
+    outline: 0;
+}
+.customFileInput:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+body {
+    padding: 20px;
+}
+
+.contactsMargin {
+    margin-left: 25px;
+}
+
+.errorMessage {
+    color: red;
 }

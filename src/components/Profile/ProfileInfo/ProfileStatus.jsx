@@ -26,12 +26,12 @@ const ProfileStatus = (props) => {
 
     return (<div>
         {!editMode
-            ? <div>
+            ? <p><b>Status: </b>
                 <span onDoubleClick={activateMethodMode}>{props.status || 'Задать статус'}</span>
-            </div>
-            : <div>
+            </p>
+            : <p><b>Status: </b>
                 <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateMethodMode} value={status} type=""/>
-            </div>
+            </p>
         }
     </div>)
 }

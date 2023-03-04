@@ -57,6 +57,7 @@ const AppContainer = connect(mapStateToProps, {initializedApp})(App);
 
 const MainApp = () => {
     return (
+        // <BrowserRouter basename={process.env.PUBLIC_URL}>
         <BrowserRouter>
             <Provider store={store}>
                 <AppContainer/>
