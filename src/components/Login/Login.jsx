@@ -4,7 +4,8 @@ import {required} from "../../utils/validators/validators";
 import {Navigate} from "react-router-dom";
 import style from './../../common/FormControls/FormControls.module.css'
 
-const LoginForm = (props) => {
+const LoginForm = ({captchaUrl, ...props}) => {
+
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -21,9 +22,23 @@ const LoginForm = (props) => {
             </div>
             <div className={style.errorMessage}>
                 {props.error}
+
             </div>
+            {captchaUrl &&
+                <div>
+                    <div>
+                        <Field placeholder={'please inter captcha'}
+                               name={'captcha'}
+                               component={'input'}
+                               type={'text'}
+                               validate={required}/>
+                    </div>
+                    <div>
+                        <img src={captchaUrl} alt={''}/>
+                    </div>
+                </div>}
             <div>
-                <button >Login </button>
+                <button>Login</button>
             </div>
         </form>
     )
@@ -32,18 +47,18 @@ const LoginForm = (props) => {
 const Login = (props) => {
 
     const onSubmit = (formData) => {
-        props.login({email: formData.email, password: formData.password, rememberMe: formData.rememberMe})
+        props.login(formData)
     }
 
     if (!props.isAuth) {
         return (
             <div>
                 <h1>Login</h1>
-                <LoginReduxForm onSubmit={onSubmit}/>
+                <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
             </div>
         )
     } else {
-        return <Navigate to={'/profile'}/>
+        return <Navigate to={'/news'}/>
     }
 }
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)

@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import NavbarContainer from "./components/Navbar/NavbarContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import React, {useEffect, Suspense} from "react";
@@ -17,12 +17,20 @@ const News = React.lazy(() => import("./components/News/News"));
 const Settings = React.lazy(() => import("./components/Settings/Settings"));
 
 const App = (props) => {
+
+    const catchAllUnhandleError = (promiseRejectionEvent, reason, promise) => {
+        alert('some error')
+
+    }
     useEffect(() => {
         props.initializedApp()
+        window.addEventListener('unhandledrejection', catchAllUnhandleError)
     })
+
     if (!props.initialized) {
         return <Preloader/>
     }
+
     return (
         <Provider store={store}>
             <div className="app-wrapper">
@@ -32,13 +40,15 @@ const App = (props) => {
                     <Suspense fallback={<Preloader/>}>
                         <section>
                             <Routes>
+                                <Route exact path="/" element={<Navigate to="/profile" />} />
                                 <Route path='/login/*' element={<LoginContainer/>}/>
-                                <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                                <Route path='/profile/:userId/*' element={<ProfileContainer/>}/>
                                 <Route path='/dialogs/*' element={<DialogsContainer/>}/>
                                 <Route path='/music/*' element={<Music/>}/>
                                 <Route path='/news/*' element={<News/>}/>
                                 <Route path='/users/*' element={<UsersContainer/>}/>
                                 <Route path='/settings/*' element={<Settings/>}/>
+                                <Route path='*' element={<div>404 NOT FOUND</div>}/>
                             </Routes>
                         </section>
                     </Suspense>

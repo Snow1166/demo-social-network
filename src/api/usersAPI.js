@@ -31,40 +31,43 @@ export const usersAPI = {
 
 export const authAPI = {
     auth: () => {
-        return instance.get('/auth/me')
+        return instance.get('auth/me')
     },
     login: (loginForm) => {
-        return instance.post('/auth/login', loginForm)
+        return instance.post('auth/login', loginForm)
     },
     logout: () => {
-        return instance.delete('/auth/login')
+        return instance.delete('auth/login')
     },
-    getCaptcha: () => {
-        return instance.get('/security/get-captcha-url')
-    }
 }
 
 export const profileAPI = {
     getProfile: async (userId) => {
-        const response = await instance.get(`/profile/${userId}`)
+        const response = await instance.get(`profile/${userId}`)
         return response.data
 
     },
     getStatus: (userId) => {
-        return instance.get(`/profile/status/${userId}`)
+        return instance.get(`profile/status/${userId}`)
     },
     updateStatus: async (status) => {
-        const response = await instance.put(`/profile/status/`, {status})
+        const response = await instance.put(`profile/status/`, {status})
         return response.data
 
     },
     savePhoto: async (imageFile) => {
         let formData = new FormData()
         formData.append('image', imageFile)
-        return await instance.put(`/profile/photo`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+        return await instance.put(`profile/photo`, formData, {headers: {'Content-Type': 'multipart/form-data'}})
     },
     saveProfile: async (profileData) => {
-        const response = await  instance.put('/profile', profileData)
+        const response = await  instance.put('profile', profileData)
         return response.data
+    }
+}
+
+export const securityAPI = {
+    getCaptcha: () => {
+        return instance.get('security/get-captcha-url')
     }
 }
